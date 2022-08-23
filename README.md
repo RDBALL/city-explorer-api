@@ -2,7 +2,7 @@
 
 **Author**: Robert Ball
 
-**Version**: 1.0.0 
+**Version**: 1.0.0
 
 ## Overview
 
@@ -37,8 +37,8 @@ Estimate of time needed to complete: 2 hours
 
 Start time: 1pm
 
-Finish time: 4pm
+Finish time: 4:30pm
 
-Actual time needed to complete: 3 hours
+Actual time needed to complete: 3.5 hours
 
 ---

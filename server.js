@@ -1,58 +1,45 @@
-'user strict';
+'use strict';
 
 console.log('This is my first server');
 
+require('dotenv').config(); // loads environment variables from .env ---- PORT in this case
 
-//servers we use require not import
+const express = require('express'); // bringing in express
+const cors = require('cors'); // require imports cors allows share info, middleware
+const app = express(); //using express as dicated in express docs
+const forecastData = require('./data/weather.json'); //constant to reference weather.json data
+app.use(cors()); // middleware to share resources across the internet
 
-//Bring in express
-const express = require('express');
-require('dotenv').config();
-let data = require('./data/pets.json');
-const cors = require('cors');
+const PORT = process.env.PORT || 3002; //define port
 
-//once express is in we need to use it-per express docs
-const app = express();
+console.log(forecastData); //logging to terminal forcastData --- should show all 3 data arrays as objs
 
-//middle ware to share resources across the internet
-app.use(cors());
+app.get('/forecastData', (request, response) => {
+  const searchQuery = request.query.searchQuery;
 
-const PORT = process.env.PORT || 3002;
+  console.log(searchQuery); // should return all cities as obj in terminal
 
-//ROUTES
+  let searchResult = forecastData.find(object => object.city_name === searchQuery);
 
-//Base route - proof of life
+  console.log(searchResult); // should return city name as an obj with correct data from weather.json
 
-app.get('/', (request, response) =>{
-  response.status(200).send('Welcome to our server');
+  const result = searchResult.data.map(forecastObj => new Forecast(forecastObj));
+
+  response.status(200).send(result); // send it back to original request
+
+  console.log(result); //should return each day from weather forcast data --- terminal
 });
 
-app.get('/hello', (request, response) => {
-  console.log(request.query);
-  let firstName = request.query.firstName;
-  response.status(200).send(`Hello ${firstName}. This is the hello route`);
-});
-
-
-app.get('/pet', (request, response) => {
-  let species = request.query.species;
-  // console.log(species);
-  let dataToGroom = data.find(pet => pet.species === species);
-  let dataToSend = new Pet(dataToGroom);
-  response.status(200).send(dataToSend);
-});
-
-class Pet {
-  constructor(petObj){
-    this.name = petObj.name;
-    this.breed = petObj.breed;
+class Forecast {
+  constructor(weatherObject) {
+    this.datetime = weatherObject.datetime;
+    this.description = weatherObject.weather.description;
   }
 }
 
-//catch all that needs to be at the bottom. Sends message if user hits 404 error
-
+// Catch all - needs to be at the bottom
 app.get('*', (request, response) => {
   response.status(404).send('This route does not exist');
 });
 
-app.listen(PORT, () => console.log(`We are up on PORT ${PORT}`));
+app.listen(PORT, () => console.log(`We are up on PORT: ${PORT}`));
