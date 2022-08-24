@@ -6,42 +6,46 @@ require('dotenv').config(); // loads environment variables from .env ---- PORT i
 
 const express = require('express'); // bringing in express
 const cors = require('cors'); // require imports cors allows share info, middleware
+const { default: axios } = require('axios');
 const app = express(); //using express as dicated in express docs
-const forecastData = require('./data/weather.json'); //constant to reference weather.json data
+// const forecastData = require('./data/weather.json'); //constant to reference weather.json data
 app.use(cors()); // middleware to share resources across the internet
 
 const PORT = process.env.PORT || 3002; //define port
 
-console.log(forecastData); //logging to terminal forcastData --- should show all 3 data arrays as objs
-
 app.get('/', (request, response) => {
-  console.log('This is showing up in the terminal!');
   response.status(200).send('Welcome to our server');
 });
 
-app.get('/forecastData', (request, response) => {
-  const searchQuery = request.query.searchQuery;
+app.get('/weather', getForecast);
 
-  console.log(searchQuery); // should return all cities as obj in terminal
-
-  let searchResult = forecastData.find(object => object.city_name === searchQuery);
-
-  console.log(searchResult); // should return city name as an obj with correct data from weather.json
-
-  const result = searchResult.data.map(forecastObj => new Forecast(forecastObj));
-
-  response.status(200).send(result); // send it back to original request
-
-  console.log(result); //should return each day from weather forcast data --- terminal
-});
-
-class Forecast {
-  constructor(weatherObject) {
-    this.datetime = weatherObject.datetime;
-    this.description = weatherObject.weather.description;
+async function getForecast(request, response) {
+  let lat = request.query.lat;
+  let lon = request.query.lon;
+  const weatherAPI = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}&days=5&units=I`;
+  try {
+    const forecastResponse = await axios.get(weatherAPI);
+    const forecastArray = forecastResponse.data.data.map(weatherObject => new Forecast(weatherObject));
+    response.status(200).send(forecastArray);
+  } catch (error) {
+    console.log('error message is: ', error);
+    response.status(500).send('Server Error!');
   }
 }
 
+class Forecast {
+  constructor(weatherObject) {
+    let date = weatherObject.datetime;
+    let lowTemp = weatherObject.low_temp;
+    let highTemp = weatherObject.high_temp;
+    let weatherDescription = weatherObject.weather.description;
+
+    this.description =`${date}
+    low: ${lowTemp} 
+    high: ${highTemp}
+    ${weatherDescription}.`;
+  }
+}
 // Catch all - needs to be at the bottom
 app.get('*', (request, response) => {
   response.status(404).send('This route does not exist');
