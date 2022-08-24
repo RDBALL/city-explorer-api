@@ -14,6 +14,11 @@ const PORT = process.env.PORT || 3002; //define port
 
 console.log(forecastData); //logging to terminal forcastData --- should show all 3 data arrays as objs
 
+app.get('/', (request, response) => {
+  console.log('This is showing up in the terminal!');
+  response.status(200).send('Welcome to our server');
+});
+
 app.get('/forecastData', (request, response) => {
   const searchQuery = request.query.searchQuery;
 
