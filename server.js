@@ -17,7 +17,12 @@ app.get('/', (request, response) => {
   response.status(200).send('Welcome to our server');
 });
 
+// --------------------- setting routes -----------------------
+
 app.get('/weather', getForecast);
+app.get('/movies', getMovieData);
+
+// --------------------- creating api functions --------------------
 
 async function getForecast(request, response) {
   let lat = request.query.lat;
@@ -33,6 +38,21 @@ async function getForecast(request, response) {
   }
 }
 
+async function getMovieData(request, response) {
+  let city = request.query.searchQuery;
+  const moviesAPI = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${city}`;
+  try{
+    const movieDBResponse = await axios.get(moviesAPI);
+    const movieArray = movieDBResponse.data.results.map(movieObject => new Movie(movieObject));
+    response.status(200).send(movieArray);
+  } catch (error) {
+    console.log('error message is: ', error);
+    response.status(500).send('Server Error!');
+  }
+}
+
+// --------------------- establishing classes ----------------------
+
 class Forecast {
   constructor(weatherObject) {
     let date = weatherObject.datetime;
@@ -46,6 +66,19 @@ class Forecast {
     ${weatherDescription}.`;
   }
 }
+
+class Movie {
+  constructor(movieObject) {
+    this.imgUrl = `https://image.tmdb.org/t/p/w200${movieObject.poster_path}`;
+    this.title = movieObject.title;
+    this.overview = movieObject.overview;
+    this.release_date = movieObject.release_date;
+    this.popularity = movieObject.popularity;
+    this.totalVotes = movieObject.vote_count;
+    this.vote_avg = movieObject.vote_average;
+  }
+}
+
 // Catch all - needs to be at the bottom
 app.get('*', (request, response) => {
   response.status(404).send('This route does not exist');
