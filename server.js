@@ -69,7 +69,7 @@ class Forecast {
 
 class Movie {
   constructor(movieObject) {
-    this.imgUrl = `https://image.tmdb.org/t/p/w200${movieObject.poster_path}`;
+    this.imgUrl = `https://image.tmdb.org/t/p/w500${movieObject.poster_path}`;
     this.title = movieObject.title;
     this.overview = movieObject.overview;
     this.release_date = movieObject.release_date;
