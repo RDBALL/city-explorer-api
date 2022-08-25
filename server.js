@@ -13,7 +13,7 @@ app.use(cors()); // middleware to share resources across the internet
 
 const PORT = process.env.PORT || 3002; //define port
 
-app.get('/', (request, response) => {
+app.get('/hello', (request, response) => {
   response.status(200).send('Welcome to our server');
 });
 
