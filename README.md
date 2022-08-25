@@ -16,7 +16,7 @@ This app will require the user to initialize a server with Heroku and point thei
 
 ![WRRC Cycle Lab 07](./img/WRRC_Lab07.jpg)
 
-![WRRC Cycle Lab 08](./src/img/WRRC_Lab08.jpg)
+![WRRC Cycle Lab 08](./img/WRRC_Lab08.jpg)
 
 This app utilizes NODE.js, JavaScript and json data to provide the user with requested data
 
