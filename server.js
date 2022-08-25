@@ -13,8 +13,6 @@ const PORT = process.env.PORT || 3002; //define port
 // const forecastData = require('./data/weather.json'); //constant to reference weather.json data
 app.use(cors()); // middleware to share resources across the internet
 
-app.listen(PORT, () => console.log(`listening on ${PORT}`));
-
 // --------------------- setting routes -----------------------
 
 app.get('/hello', (request, response) => {
