@@ -2,7 +2,7 @@
 
 **Author**: Robert Ball
 
-**Version**: 1.0.0
+**Version**: 1.0.2
 
 ## Overview
 
@@ -16,16 +16,19 @@ This app will require the user to initialize a server with Heroku and point thei
 
 ![WRRC Cycle Lab 07](./img/WRRC_Lab07.jpg)
 
+![WRRC Cycle Lab 08](./src/img/WRRC_Lab08.jpg)
+
 This app utilizes NODE.js, JavaScript and json data to provide the user with requested data
 
 ## Change Log
 
-<!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
+* v1.0.2 - Introduced live weather and movie database API requests
 
-01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+* v1.0.1 - Introduced API server to handle requests
 
 ## Credit and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
+
+* lab-08: I worked with Armen Agabekian to create the lab08 WRRC graphic. I also collaborated with Stephen Clemmer and Keelen Fisher while configuring the weatherbit and movie database API async functions
 
 ### Time Estimates
 
@@ -44,3 +47,15 @@ Finish time: 4:30pm
 Actual time needed to complete: 3.5 hours
 
 ---
+
+## **Lab 08**
+
+Name of feature: Establish async functions to handle live data API requests
+
+Estimate of time needed to complete: 4 hours
+
+Start time: 1pm
+
+Finish time: 6:30pm
+
+Actual time needed to complete: 5.5 hours
