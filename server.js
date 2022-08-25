@@ -6,39 +6,76 @@ require('dotenv').config(); // loads environment variables from .env ---- PORT i
 
 const express = require('express'); // bringing in express
 const cors = require('cors'); // require imports cors allows share info, middleware
+const { default: axios } = require('axios');
 const app = express(); //using express as dicated in express docs
-const forecastData = require('./data/weather.json'); //constant to reference weather.json data
+// const forecastData = require('./data/weather.json'); //constant to reference weather.json data
 app.use(cors()); // middleware to share resources across the internet
 
 const PORT = process.env.PORT || 3002; //define port
 
-console.log(forecastData); //logging to terminal forcastData --- should show all 3 data arrays as objs
-
 app.get('/', (request, response) => {
-  console.log('This is showing up in the terminal!');
   response.status(200).send('Welcome to our server');
 });
 
-app.get('/forecastData', (request, response) => {
-  const searchQuery = request.query.searchQuery;
+// --------------------- setting routes -----------------------
 
-  console.log(searchQuery); // should return all cities as obj in terminal
+app.get('/weather', getForecast);
+app.get('/movies', getMovieData);
 
-  let searchResult = forecastData.find(object => object.city_name === searchQuery);
+// --------------------- creating api functions --------------------
 
-  console.log(searchResult); // should return city name as an obj with correct data from weather.json
+async function getForecast(request, response) {
+  let lat = request.query.lat;
+  let lon = request.query.lon;
+  const weatherAPI = `https://api.weatherbit.io/v2.0/forecast/daily?lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_KEY}&days=5&units=I`;
+  try {
+    const forecastResponse = await axios.get(weatherAPI);
+    const forecastArray = forecastResponse.data.data.map(weatherObject => new Forecast(weatherObject));
+    response.status(200).send(forecastArray);
+  } catch (error) {
+    console.log('error message is: ', error);
+    response.status(500).send('Server Error!');
+  }
+}
 
-  const result = searchResult.data.map(forecastObj => new Forecast(forecastObj));
+async function getMovieData(request, response) {
+  let city = request.query.searchQuery;
+  const moviesAPI = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIE_API_KEY}&query=${city}`;
+  try{
+    const movieDBResponse = await axios.get(moviesAPI);
+    const movieArray = movieDBResponse.data.results.map(movieObject => new Movie(movieObject));
+    response.status(200).send(movieArray);
+  } catch (error) {
+    console.log('error message is: ', error);
+    response.status(500).send('Server Error!');
+  }
+}
 
-  response.status(200).send(result); // send it back to original request
-
-  console.log(result); //should return each day from weather forcast data --- terminal
-});
+// --------------------- establishing classes ----------------------
 
 class Forecast {
   constructor(weatherObject) {
-    this.datetime = weatherObject.datetime;
-    this.description = weatherObject.weather.description;
+    let date = weatherObject.datetime;
+    let lowTemp = weatherObject.low_temp;
+    let highTemp = weatherObject.high_temp;
+    let weatherDescription = weatherObject.weather.description;
+
+    this.description =`${date}
+    low: ${lowTemp} 
+    high: ${highTemp}
+    ${weatherDescription}.`;
+  }
+}
+
+class Movie {
+  constructor(movieObject) {
+    this.imgUrl = `https://image.tmdb.org/t/p/w500${movieObject.poster_path}`;
+    this.title = movieObject.title;
+    this.overview = movieObject.overview;
+    this.release_date = movieObject.release_date;
+    this.popularity = movieObject.popularity;
+    this.totalVotes = movieObject.vote_count;
+    this.vote_avg = movieObject.vote_average;
   }
 }
 
