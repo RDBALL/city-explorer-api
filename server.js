@@ -2,16 +2,17 @@
 
 console.log('This is my first server');
 
-require('dotenv').config(); // loads environment variables from .env ---- PORT in this case
 //const getMovieData = require('./modules/moviesAPI.js');
 const express = require('express'); // bringing in express
+require('dotenv').config(); // loads environment variables from .env ---- PORT in this case
 const cors = require('cors'); // require imports cors allows share info, middleware
-const { default: axios } = require('axios');
+const axios = require('axios');
+
 const app = express(); //using express as dicated in express docs
+const PORT = process.env.PORT || 3002; //define port
 // const forecastData = require('./data/weather.json'); //constant to reference weather.json data
 app.use(cors()); // middleware to share resources across the internet
 
-const PORT = process.env.PORT || 3002; //define port
 
 app.get('/hello', (request, response) => {
   response.status(200).send('Welcome to our server');
