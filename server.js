@@ -3,7 +3,7 @@
 console.log('This is my first server');
 
 require('dotenv').config(); // loads environment variables from .env ---- PORT in this case
-
+//const getMovieData = require('./modules/moviesAPI.js');
 const express = require('express'); // bringing in express
 const cors = require('cors'); // require imports cors allows share info, middleware
 const { default: axios } = require('axios');
@@ -55,21 +55,24 @@ async function getMovieData(request, response) {
 
 class Forecast {
   constructor(weatherObject) {
-    let date = weatherObject.datetime;
+    this.date = weatherObject.datetime;
     let lowTemp = weatherObject.low_temp;
     let highTemp = weatherObject.high_temp;
     let weatherDescription = weatherObject.weather.description;
 
-    this.description =`${date}
-    low: ${lowTemp} 
-    high: ${highTemp}
-    ${weatherDescription}.`;
+    this.description =` low: ${lowTemp} high: ${highTemp} with ${weatherDescription}.`;
   }
 }
+//      "poster_path": "/iLWsLVrfkFvOXOG9PbUAYg7AK3E.jpg",
 
 class Movie {
   constructor(movieObject) {
-    this.imgUrl = `https://image.tmdb.org/t/p/w500${movieObject.poster_path}`;
+    if (movieObject.poster_path !== null) {
+      this.imgUrl = `https://image.tmdb.org/t/p/w500${movieObject.poster_path}`;
+    } else {
+      this.imgUrl = `https://via.placeholder.com/400x200/000000/ffffff.png?text=No+Poster+Available`;
+    }
+
     this.title = movieObject.title;
     this.overview = movieObject.overview;
     this.release_date = movieObject.release_date;
