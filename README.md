@@ -2,7 +2,7 @@
 
 **Author**: Robert Ball
 
-**Version**: 1.0.3
+**Version**: 1.0.4
 
 ## Overview
 
@@ -20,9 +20,13 @@ This app will require the user to initialize a server with Heroku and point thei
 
 ![WRRC Cycle Lab 08](./img/WRRC_Lab09.jpg)
 
+![WRRC Cycle Lab 08](./img/WRRC_Lab10.jpg)
+
 This app utilizes NODE.js, JavaScript and json data to provide the user with requested data
 
 ## Change Log
+
+* v1.0.4 - Implement cache in order to reduce API query size for popular user searches
 
 * v1.0.3 - Branched async funtions into individual modules
 
@@ -79,3 +83,17 @@ Start time: 4:30pm
 Finish time: 5:30pm
 
 Actual time needed to complete: 1 hours
+
+---
+
+## **Lab 10**
+
+Name of feature: Implement cache for movie and forecast queries
+
+Estimate of time needed to complete: 1 hour
+
+Start time: 11:30am
+
+Finish time: 12:00pm
+
+Actual time needed to complete: 30 minutes
