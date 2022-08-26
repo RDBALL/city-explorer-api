@@ -2,7 +2,7 @@
 
 **Author**: Robert Ball
 
-**Version**: 1.0.2
+**Version**: 1.0.3
 
 ## Overview
 
@@ -18,9 +18,13 @@ This app will require the user to initialize a server with Heroku and point thei
 
 ![WRRC Cycle Lab 08](./img/WRRC_Lab08.jpg)
 
+![WRRC Cycle Lab 08](./img/WRRC_Lab09.jpg)
+
 This app utilizes NODE.js, JavaScript and json data to provide the user with requested data
 
 ## Change Log
+
+* v1.0.3 - Branched async funtions into individual modules
 
 * v1.0.2 - Introduced live weather and movie database API requests
 
@@ -29,6 +33,8 @@ This app utilizes NODE.js, JavaScript and json data to provide the user with req
 ## Credit and Collaborations
 
 * lab-08: I worked with Armen Agabekian to create the lab08 WRRC graphic. I also collaborated with Stephen Clemmer and Keelen Fisher while configuring the weatherbit and movie database API async functions
+
+* lab-09 I worked with Tyler Main to reinforce our understanding of the WRRC
 
 ### Time Estimates
 
@@ -59,3 +65,17 @@ Start time: 1pm
 Finish time: 6:30pm
 
 Actual time needed to complete: 5.5 hours
+
+---
+
+## **Lab 09**
+
+Name of feature: Move async functions to modules
+
+Estimate of time needed to complete: 2 hours
+
+Start time: 4:30pm
+
+Finish time: 5:30pm
+
+Actual time needed to complete: 1 hours
